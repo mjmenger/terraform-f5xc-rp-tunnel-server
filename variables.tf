@@ -17,11 +17,11 @@ resource "random_string" "authtoken" {
 }
 variable rp_tunnel_instance_name {
     type        = string
-    description = "the value used as prefix for all frp server deployment artifacts (e.g. myfrps)."
+    description = "the value used as prefix for all rp server deployment artifacts (e.g. myfrps)."
 }
 variable rp_tunnel_namespace {
     type        = string
-    description = "the kubernetes namespace in which to deploy the frp server. (e.g. frps). While default is possible it is not recommended."
+    description = "the kubernetes namespace in which to deploy the rp server. While default is possible it is not recommended."
 }
 variable rp_tunnel_create_namespace {
     type        = bool
@@ -30,24 +30,24 @@ variable rp_tunnel_create_namespace {
 }
 variable rp_tunnel_control_listener_port {
     type        = number
-    description = "the port used by the frp server to listen for frp client requests."
+    description = "the port used by the rp server to listen for rp client requests."
 }
 variable rp_tunnel_http_listener_port {
     type        = number
-    description = "the port used by the frp server to listen for http application end user requests."
+    description = "the port used by the rp server to listen for http application end user requests."
 }
 variable rp_tunnel_https_listener_port {
     type        = number
-    description = "the port used by the frp server to listen for https application end user requests"
+    description = "the port used by the rp server to listen for https application end user requests"
 }
 variable rp_tunnel_auth_token {
     type        = string
     default     = ""
-    description = "value of the token used by the frp server to authenticate frp clients."
+    description = "value of the token used by the rp server to authenticate rp clients."
 }
 variable rp_tunnel_app_name {
     type        = string
-    description = "the name of the application proxied by the frp client."
+    description = "the name of the application proxied by the rp client."
 }
 variable f5xc_appstack_site {
     type        = string
@@ -55,20 +55,20 @@ variable f5xc_appstack_site {
 }
 variable f5xc_namespace {
     type        = string
-    description = "the F5 Distributed Cloud namespace in which the frp server origin pools and load balancers are deployed."
+    description = "the F5 Distributed Cloud namespace in which the rp server origin pools and load balancers are deployed."
 }
 variable f5xc_tenant_id {
     type        = string
-    description = "the id of the F5 Distributed Cloud tenant. this is not the name of the tenant, but the id found user Account -> Tenant Overview."
+    description = "the id of the F5 Distributed Cloud tenant. this is not the name of the tenant, but the id found in the F5 Distributed Cloud GUI at User Account -> Tenant Overview."
 }
 variable f5xc_dns_zone {
     type        = string
-    description = "the previously configured dns zone to use when creating frp server load balancers."
+    description = "the previously configured dns zone to use when creating rp server load balancers."
 }
 variable rp_tunnel_chart_repository {
     type        = string
     default     = "https://f5businessdevelopment.github.io/helm-charts"
-    description = "the url of the helm chart repository where the f5xc-frps chart is stored."
+    description = "the url of the helm chart repository where the f5xc-rp-tunnel chart is stored."
 }
 variable rp_tunnel_chart_name {
     type        = string
