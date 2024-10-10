@@ -1,11 +1,11 @@
 resource "volterra_origin_pool" "control" {
-  name                   = format("%s-%s-control", var.frps_instance_name, var.frps_chart_name )
+  name                   = format("%s-%s-control", var.rp_tunnel_instance_name, var.rp_tunnel_chart_name )
   namespace              = var.f5xc_namespace 
   endpoint_selection     = "LOCAL_PREFERRED"
   loadbalancer_algorithm = "LB_OVERRIDE"
   same_as_endpoint_port  = true
   no_tls                 = true
-  port                   = var.frps_control_listener_port
+  port                   = var.rp_tunnel_control_listener_port
   origin_servers {
     k8s_service {
       site_locator {
@@ -15,20 +15,20 @@ resource "volterra_origin_pool" "control" {
             name      = var.f5xc_appstack_site
         }
       }
-      service_name   = format("%s-%s.%s", var.frps_instance_name, var.frps_chart_name, var.frps_namespace)
+      service_name   = format("%s-%s.%s", var.rp_tunnel_instance_name, var.rp_tunnel_chart_name, var.rp_tunnel_namespace)
       inside_network = true
     }
   }
 }
 
 resource "volterra_origin_pool" "http" {
-  name                   = format("%s-%s-http", var.frps_instance_name, var.frps_chart_name )
+  name                   = format("%s-%s-http", var.rp_tunnel_instance_name, var.rp_tunnel_chart_name )
   namespace              = var.f5xc_namespace 
   endpoint_selection     = "LOCAL_PREFERRED"
   loadbalancer_algorithm = "LB_OVERRIDE"
   same_as_endpoint_port  = true
   no_tls                 = true
-  port                   = var.frps_http_listener_port
+  port                   = var.rp_tunnel_http_listener_port
   origin_servers {
     k8s_service {
       site_locator {
@@ -38,16 +38,16 @@ resource "volterra_origin_pool" "http" {
             name      = var.f5xc_appstack_site
         }
       }
-      service_name   = format("%s-%s.%s", var.frps_instance_name, var.frps_chart_name, var.frps_namespace)
+      service_name   = format("%s-%s.%s", var.rp_tunnel_instance_name, var.rp_tunnel_chart_name, var.rp_tunnel_namespace)
       inside_network = true
     }
   }
 }
 
 resource "volterra_tcp_loadbalancer" "control" {
-  name      = format("%s-%s-control", var.frps_instance_name, var.frps_chart_name )
+  name      = format("%s-%s-control", var.rp_tunnel_instance_name, var.rp_tunnel_chart_name )
   namespace = var.f5xc_namespace 
-  domains   = [format("%s.%s", var.frps_instance_name, var.f5xc_dns_zone )]
+  domains   = [format("%s.%s", var.rp_tunnel_instance_name, var.f5xc_dns_zone )]
 
   origin_pools_weights {
     pool {
@@ -60,14 +60,14 @@ resource "volterra_tcp_loadbalancer" "control" {
   }
   advertise_on_public_default_vip = true
   tcp                             = true
-  listen_port                     = var.frps_control_listener_port
+  listen_port                     = var.rp_tunnel_control_listener_port
   dns_volterra_managed            = true
 }
 
 resource volterra_http_loadbalancer "http" {
-  name      = format("%s-%s-http", var.frps_instance_name, var.frps_chart_name )
+  name      = format("%s-%s-http", var.rp_tunnel_instance_name, var.rp_tunnel_chart_name )
   namespace = var.f5xc_namespace 
-  domains   = [format("%s.%s", var.frps_app_name, var.f5xc_dns_zone)]
+  domains   = [format("%s.%s", var.rp_tunnel_app_name, var.f5xc_dns_zone)]
   https_auto_cert {
     http_redirect = true
     add_hsts = false
